@@ -1,131 +1,131 @@
-# Wine Quality Classification 🍷
+# 🍷 Classificação da Qualidade de Vinhos
 
-Tech Challenge — Fase 2 | POSTECH — Data Analytics
+Projeto de Machine Learning da **Pós Tech em Data Analytics – Fase 2**. O modelo prevê se um vinho é de **alta qualidade** a partir de medidas de laboratório (álcool, acidez, sulfatos etc.).
 
-## Sobre o projeto
+## O problema
 
-Este projeto tem como objetivo desenvolver um modelo de **classificação binária** capaz de prever a qualidade de um vinho a partir de suas características físico-químicas (acidez, teor alcoólico, densidade, dióxido de enxofre, entre outras), utilizando o **Wine Quality Dataset** (Kaggle).
+Hoje a qualidade de um vinho é avaliada por especialistas em degustação, um processo **subjetivo, caro e demorado**. A ideia é usar dados que a vinícola já mede na produção para **antecipar** quais lotes têm potencial de alta qualidade.
 
-Tradicionalmente, a avaliação da qualidade de um vinho depende de análise sensorial feita por especialistas — um processo subjetivo e demorado. Este trabalho explora como técnicas de ciência de dados e aprendizado de máquina podem apoiar essa decisão de forma mais objetiva e escalável.
+- **Base:** [WineQT](data/WineQT.csv), com 1.143 vinhos tintos (1.018 depois de remover os repetidos) e 11 medidas físico-químicas.
+- **Variável alvo:** a nota dos especialistas (0 a 10) virou uma classificação binária:
 
-### Definição do problema
-
-A variável original `quality` (nota atribuída por especialistas) foi transformada em uma classificação binária:
-
-- **1 — Alta Qualidade**: nota ≥ 8
-- **0 — Baixa/Média Qualidade**: nota < 8
+| Classe | Regra | Vinhos |
+|---|---|---|
+| **1 – Alta qualidade** | nota ≥ 7 | 137 (13,5%) |
+| **0 – Baixa/média** | nota < 7 | 881 (86,5%) |
 
 ## Estrutura do repositório
 
 ```
-wine-quality-classification/
+tc-wine-quality-classification/
 │
-├── data/              # Base de dados utilizada (Wine Quality Dataset)
-├── notebooks/         # Notebook com a análise exploratória e modelagem
-├── src/               # Scripts auxiliares (pré-processamento e modelagem)
-├── results/           # Gráficos e métricas dos modelos
-├── requirements.txt   # Bibliotecas utilizadas
-└── README.md          # Descrição do projeto
+├── data/                 # Base de dados (WineQT.csv)
+├── notebooks/            # Notebook com a análise completa (WineQT.ipynb)
+├── src/                  # Scripts do pipeline
+│   ├── config.py         #   caminhos, semente e paleta de cores
+│   ├── preprocessing.py  #   carga, limpeza, novas features e padronização
+│   ├── modeling.py       #   modelos, ajuste fino, ponto de corte e métricas
+│   ├── train.py          #   executa o pipeline e salva as tabelas (.csv)
+│   └── exportar_figuras.py  # salva os 23 gráficos do notebook em results/
+├── results/              # Tabelas (.csv) e os 23 gráficos do notebook (figuras/)
+├── docs/                 # Apresentações (storytelling e vídeo executivo)
+├── requirements.txt      # Bibliotecas utilizadas
+└── README.md             # Este arquivo
 ```
 
-## Base de dados
+## Apresentações
 
-- **Fonte:** [Wine Quality Dataset - Kaggle](https://www.kaggle.com/datasets/yasserh/wine-quality-dataset)
-- **Variáveis preditoras:**
-  - Acidez fixa (fixed acidity)
-  - Acidez volátil (volatile acidity)
-  - Ácido cítrico (citric acid)
-  - Açúcar residual (residual sugar)
-  - Cloretos (chlorides)
-  - Dióxido de enxofre livre (free sulfur dioxide)
-  - Dióxido de enxofre total (total sulfur dioxide)
-  - Densidade (density)
-  - pH
-  - Sulfatos (sulphates)
-  - Teor alcoólico (alcohol)
-- **Variável alvo:** Qualidade do vinho (quality) → transformada em classificação binária
+- 📊 **Storytelling da análise exploratória:** [PDF](docs/storytelling_analise_exploratoria.pdf) 
+- 🎬 **Vídeo executivo:** [assistir](docs/Apresentacao_Executiva_WineQT.mp4) · [PPTX](docs/Apresentacao_Executiva_WineQT.pptx)
 
-## Metodologia
+## Como executar
 
-O desenvolvimento seguiu as seguintes etapas:
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/<seu-usuario>/tc-wine-quality-classification.git
+cd tc-wine-quality-classification
 
-1. **Compreensão do problema**
-   Interpretação do contexto, definição da variável alvo e transformação em classificação binária.
+# 2. (Opcional) Criar um ambiente virtual
+python -m venv .venv
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
 
-2. **Análise Exploratória de Dados (EDA)**
-   - Distribuição das variáveis
-   - Correlação entre variáveis (com justificativa)
-   - Identificação de outliers e valores inconsistentes
-   - Análise do balanceamento das classes
+# 3. Instalar as bibliotecas
+pip install -r requirements.txt
 
-3. **Pré-processamento de dados**
-   - Tratamento de dados faltantes (se houver)
-   - Normalização/padronização das variáveis numéricas
-   - Criação de novas features (quando relevante)
+# 4. Abrir o notebook com a análise explicada passo a passo
+jupyter notebook notebooks/WineQT.ipynb
 
-4. **Desenvolvimento dos modelos**
-   Treinamento de pelo menos dois modelos de classificação para comparação.
+# 5. Regerar os resultados
+python src/train.py              # tabelas (.csv) em results/
+python src/exportar_figuras.py   # gráficos do notebook em results/figuras/
+```
 
-5. **Avaliação dos modelos**
-   Avaliação com métricas adequadas ao problema (acurácia, precisão, recall, F1-score, matriz de confusão) e comparação entre os modelos testados.
+O `exportar_figuras.py` copia os gráficos do notebook já executado. Assim, `results/figuras/` mostra exatamente os mesmos gráficos da análise.
 
-6. **Interpretação dos resultados**
-   - Identificação das variáveis com maior influência na qualidade do vinho
-   - Discussão de possíveis implicações para o processo de produção
+### O que tem em `results/`
 
-## Como executar o projeto
-
-1. Clone o repositório:
-   ```bash
-   git clone <link-do-repositorio>
-   cd wine-quality-classification
-   ```
-
-2. Crie e ative um ambiente virtual:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # Linux/Mac
-   venv\Scripts\activate      # Windows
-   ```
-
-3. Instale as dependências:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Baixe o dataset do Kaggle e coloque o arquivo `.csv` na pasta `data/`.
-
-5. Execute o notebook principal:
-   ```bash
-   jupyter notebook notebooks/01_eda.ipynb
-   ```
-
-## Modelos utilizados
-
-| Modelo | Descrição |
+| Arquivo | Conteúdo |
 |---|---|
-| *A preencher* | *A preencher* |
-| *A preencher* | *A preencher* |
+| `divisao_treino_teste.csv` | Vinhos de cada classe na base, no treino e no teste |
+| `metricas_validacao_cruzada.csv` | Média das 5 rodadas por modelo |
+| `validacao_cruzada_rodadas.csv` | ROC-AUC de cada rodada |
+| `ajuste_fino_combinacoes.csv` | Todas as combinações de parâmetros testadas |
+| `ajustes_modelos.csv` | Melhores parâmetros e ponto de corte de cada modelo |
+| `metricas_teste.csv` | Métricas finais no teste (com a referência) |
+| `importancia_variaveis.csv` | Influência de cada variável na Random Forest |
+| `figuras/` | Os 23 gráficos do notebook, numerados na ordem da análise |
+
+Testado com Python 3.14.
+
+## Etapas do projeto
+
+1. **Compreensão do problema:** contexto, variável alvo e transformação em classes 0/1.
+2. **Análise exploratória:** distribuições, correlações (com justificativa química), valores fora da curva e balanceamento das classes.
+3. **Pré-processamento:** remoção de duplicatas, logaritmo nas medidas assimétricas, padronização e 3 novas features (`alcool_x_sulfatos`, `alcool_por_volatil`, `so2_livre_pct`).
+4. **Modelos:** Regressão Logística, SVM e Random Forest, com validação cruzada, ajuste fino e ponto de corte.
+5. **Avaliação:** comparação no conjunto de teste (204 vinhos nunca vistos pelos modelos).
+6. **Interpretação:** medidas que mais influenciam a qualidade e implicações para a produção.
 
 ## Resultados
 
-| Modelo | Acurácia | Precisão | Recall | F1-score |
-|---|---|---|---|---|
-| *A preencher* | | | | |
-| *A preencher* | | | | |
+Métricas no conjunto de teste (204 vinhos, 27 de alta qualidade). Os parâmetros de cada modelo foram escolhidos pela maior ROC-AUC na validação cruzada.
 
-Gráficos e demais métricas estão disponíveis na pasta `results/`.
+| Modelo | Acurácia | Precisão (acerta ao apontar) | Recall (encontra os bons) | F1 | ROC-AUC |
+|---|---|---|---|---|---|
+| **Random Forest** | 0,85 | 0,46 | **0,67** | **0,55** | **0,91** |
+| SVM | 0,86 | 0,49 | 0,59 | 0,53 | 0,89 |
+| Regressão Logística | 0,84 | 0,43 | 0,59 | 0,50 | 0,89 |
+| Referência ("tudo é comum") | 0,87 | 0,00 | 0,00 | 0,00 | 0,50 |
 
-## Principais insights
+**Modelo escolhido: Random Forest** (maior ROC-AUC, recall e F1). Ele encontrou **18 dos 27 vinhos bons** do teste (2 de cada 3). Quando aponta um vinho como bom, acerta em 46% das vezes, contra 13% escolhendo ao acaso.
 
-- *A preencher após a EDA e modelagem* (ex: variáveis com maior correlação com a qualidade, comportamento por faixa de teor alcoólico, etc.)
+A referência tem a maior acurácia sem encontrar nenhum vinho bom. Por isso a acurácia sozinha não serve para escolher o modelo neste problema.
 
-## Entregáveis do Tech Challenge
+![Curva ROC e métricas no teste](results/figuras/20_curva_roc_metricas.png)
 
-- [x] Repositório GitHub com os códigos utilizados
-- [ ] Apresentação executiva (storytelling da EDA) — formato PPT ou PDF, disponível neste repositório
-- [ ] Vídeo executivo (até 5 minutos), em linguagem não técnica
+## O que mais influencia a qualidade
 
-## Autores
+![Efeito parcial](results/figuras/23_efeito_parcial.png)
 
-- Pâmela Cristina da Silva
+- **Álcool** é o fator mais forte: a chance de alta qualidade **quase dobra** (de cerca de 20% para quase 40%) quando o álcool passa de 9,5% para 12,5%.
+- **Sulfatos** ajudam até cerca de 0,70; acima disso não há ganho.
+- **Acidez volátil** (o "gosto de vinagre") prejudica: quanto menor, melhor.
+- **Cloretos** (sal) e **excesso de SO₂** reduzem a chance de alta qualidade.
+
+## Implicações para a produção
+
+- **Controlar a acidez volátil** durante a fermentação, para corrigir problemas antes de engarrafar.
+- **Colher a uva no ponto certo** de maturação (mais álcool e mais corpo).
+- **Usar conservantes na medida certa:** sulfatos protegem, mas o excesso de SO₂ prejudica.
+- **Triagem de lotes:** usar o modelo para priorizar os lotes com maior chance de serem bons e enviar à degustação apenas os casos duvidosos.
+
+## Limitações
+
+- Poucos vinhos de alta qualidade (137), então os resultados dependem de poucos casos.
+- A base tem apenas vinhos tintos de uma mesma origem.
+- A nota é subjetiva, e o corte em 7 é uma escolha de negócio.
+- Faltam informações como tipo de uva, safra e tempo em barril.
+
+## Tecnologias
+
+Python · pandas · NumPy · scikit-learn · Matplotlib · seaborn · Jupyter

@@ -1,0 +1,4 @@
+,melhores_parametros,roc_auc_validacao,ponto_de_corte
+Regressão Logística,{'logisticregression__C': 0.1},0.888,0.68
+SVM,"{'svc__C': 0.1, 'svc__gamma': 0.01}",0.887,0.34
+Random Forest,"{'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 5}",0.884,0.57

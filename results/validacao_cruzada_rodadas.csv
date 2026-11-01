@@ -1,0 +1,21 @@
+Modelo,Rodada,ROC-AUC
+Referência,1,0.5
+Referência,2,0.5
+Referência,3,0.5
+Referência,4,0.5
+Referência,5,0.5
+Regressão Logística,1,0.8807
+Regressão Logística,2,0.9355
+Regressão Logística,3,0.8791
+Regressão Logística,4,0.882
+Regressão Logística,5,0.8565
+SVM,1,0.8627
+SVM,2,0.9362
+SVM,3,0.8594
+SVM,4,0.8536
+SVM,5,0.8438
+Random Forest,1,0.8648
+Random Forest,2,0.9352
+Random Forest,3,0.8752
+Random Forest,4,0.8849
+Random Forest,5,0.8351

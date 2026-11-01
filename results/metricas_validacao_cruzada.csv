@@ -1,0 +1,5 @@
+,Acurácia,Precisão,Recall,F1,ROC-AUC
+Referência,0.865,0.0,0.0,0.0,0.5
+Regressão Logística,0.797,0.384,0.827,0.524,0.887
+SVM,0.817,0.402,0.727,0.516,0.871
+Random Forest,0.862,0.483,0.573,0.521,0.879
